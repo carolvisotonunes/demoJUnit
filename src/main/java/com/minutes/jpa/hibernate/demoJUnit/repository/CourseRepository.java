@@ -42,4 +42,26 @@ public class CourseRepository {
         em.remove(course);
     }
 
+    public void playWithEntityManager() {
+        Course course1 = new Course("Web Services begginers");
+        em.persist(course1);
+
+        Course course2 = new Course("Angular JS in 100 steps");
+        em.persist(course2);
+
+        em.flush();
+
+        course1.setName("Web Services begginers- updated");
+        course2.setName("Angular JS in 100 steps - updated");
+
+        //refresh- the obj will not be updated
+//        em.refresh(course1);
+//        em.refresh(course2);
+
+        em.flush();
+
+    }
+
+
+
 }

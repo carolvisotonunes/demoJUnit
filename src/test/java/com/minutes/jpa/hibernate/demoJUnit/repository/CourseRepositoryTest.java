@@ -1,7 +1,7 @@
 package com.minutes.jpa.hibernate.demoJUnit.repository;
 
-import com.minutes.jpa.hibernate.demoJUnit.DemoJUnitApplication;
 import com.minutes.jpa.hibernate.demoJUnit.entity.Course;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-@SpringBootTest(classes = DemoJUnitApplication.class)
+@SpringBootTest
 class CourseRepositoryTest {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -28,6 +28,7 @@ class CourseRepositoryTest {
 
     @Test
     @DirtiesContext
+    @Ignore
     public void deleteById_basic() {
         repository.deleteById(1002L);
         assertNull(repository.findById(1002L));
@@ -38,14 +39,20 @@ class CourseRepositoryTest {
     public void save_basic() {
         // get a course
         Course course = repository.findById(1001L);
-        assertEquals("JPA in 50 Steps", course.getName());
+        assertEquals("JPA in 50 steps", course.getName());
 
         // update details
-        course.setName("JPA in 50 Steps - Updated");
+        course.setName("JPA in 50 steps - Updated");
         repository.save(course);
 
         // check the value
         Course course1 = repository.findById(1001L);
-        assertEquals("JPA in 50 Steps - Updated", course1.getName());
+        assertEquals("JPA in 50 steps - Updated", course1.getName());
+    }
+
+    @Test
+    @DirtiesContext
+    public void playWithEntityManager() {
+        repository.playWithEntityManager();
     }
 }
