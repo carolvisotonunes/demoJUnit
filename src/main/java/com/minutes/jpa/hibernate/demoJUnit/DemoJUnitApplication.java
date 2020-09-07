@@ -26,6 +26,6 @@ public class DemoJUnitApplication implements CommandLineRunner {
 //		logger.info("Course 1001 ->{}",course);
 		//courseRepository.save(new Course("Demo App - Microservices in 100 steps"));
         //courseRepository.save(new Course("Demo App - Java in 10 steps"));
-        courseRepository.playWithEntityManager();
+        //courseRepository.playWithEntityManager();
     }
 }
