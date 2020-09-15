@@ -4,12 +4,10 @@ import com.minutes.jpa.hibernate.demoJUnit.DemoJUnitApplication;
 import com.minutes.jpa.hibernate.demoJUnit.entity.Course;
 import com.minutes.jpa.hibernate.demoJUnit.entity.Student;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -92,31 +90,31 @@ public class JPQLTest {
     //CROSS JOIN => Select c, s from Course c, Student s
     //3 and 4 =>3 * 4 = 12 Rows
     @Test
-    public void join(){
+    public void join() {
         Query query = em.createQuery("Select c, s from Course c JOIN c.students s");
         List<Object[]> resultList = query.getResultList();
         logger.info("Results Size -> {}", resultList.size());
-        for(Object[] result:resultList){
+        for (Object[] result : resultList) {
             logger.info("Course{} Student{}", result[0], result[1]);
         }
     }
 
     @Test
-    public void left_join(){
+    public void left_join() {
         Query query = em.createQuery("Select c, s from Course c LEFT JOIN c.students s");
         List<Object[]> resultList = query.getResultList();
         logger.info("Results Size -> {}", resultList.size());
-        for(Object[] result:resultList){
+        for (Object[] result : resultList) {
             logger.info("Course{} Student{}", result[0], result[1]);
         }
     }
 
     @Test
-    public void cross_join(){
+    public void cross_join() {
         Query query = em.createQuery("Select c, s from Course c, Student s");
         List<Object[]> resultList = query.getResultList();
         logger.info("Results Size -> {}", resultList.size());
-        for(Object[] result:resultList){
+        for (Object[] result : resultList) {
             logger.info("Course{} Student{}", result[0], result[1]);
         }
     }
