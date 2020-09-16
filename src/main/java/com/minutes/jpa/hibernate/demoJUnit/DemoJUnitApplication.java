@@ -53,13 +53,13 @@ public class DemoJUnitApplication implements CommandLineRunner {
 
         // Jack FullTimeEmployee salary - 10000$
         // Jill PartTimeEmployee - 50$ per hour
-        employeeRepository.insert(new PartTimeEmployee("Jill", new BigDecimal("50")));
-        employeeRepository.insert(new FullTimeEmployee("Jack", new BigDecimal("10000")));
-
-        logger.info("Full Time Employees -> {}",
-                employeeRepository.retrieveAllFullTimeEmployees());
-
-        logger.info("Part Time Employees -> {}",
-                employeeRepository.retrieveAllPartTimeEmployees());
+//        employeeRepository.insert(new PartTimeEmployee("Jill", new BigDecimal("50")));
+//        employeeRepository.insert(new FullTimeEmployee("Jack", new BigDecimal("10000")));
+//
+//        logger.info("Full Time Employees -> {}",
+//                employeeRepository.retrieveAllFullTimeEmployees());
+//
+//        logger.info("Part Time Employees -> {}",
+//                employeeRepository.retrieveAllPartTimeEmployees());
     }
 }
