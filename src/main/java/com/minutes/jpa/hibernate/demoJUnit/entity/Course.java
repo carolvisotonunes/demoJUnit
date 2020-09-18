@@ -1,14 +1,28 @@
 package com.minutes.jpa.hibernate.demoJUnit.entity;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Cacheable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.PreRemove;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @NamedQueries(value = {
@@ -16,7 +30,15 @@ import java.util.List;
                 query = "Select  c  From Course c"),
         @NamedQuery(name = "query_get_100_Step_courses",
                 query = "Select  c  From Course c where name like '%100 Steps'") })
+@Cacheable
+@SQLDelete(sql="update course set is_deleted=true where id=?") //this query is fired on database, hibernate doesn't know about it
+                                                               //  to update the entity we created PreRemove
+@Where(clause="is_deleted = false") //we don't wan to retrieving inactive courses, just the active ones
+//for native queries we have to add is delete inside the query
 public class Course {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(Course.class);
+
     @Id
     @GeneratedValue
     private Long id;
@@ -36,6 +58,14 @@ public class Course {
 
     @CreationTimestamp
     private LocalDateTime createdDate;
+
+    private boolean isDeleted;
+
+    @PreRemove
+    private void preRemove(){
+        LOGGER.info("Setting isDeleted to True");
+        this.isDeleted = true;
+    }
 
     protected Course() {
     }

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -35,10 +36,9 @@ class CourseRepositoryTest {
 
     @Test
     @DirtiesContext
-    @Ignore
     public void deleteById_basic() {
-        repository.deleteById(1002L);
-        assertNull(repository.findById(1002L));
+        repository.deleteById(10002L);
+        assertNull(repository.findById(10002L));
     }
 
     @Test
@@ -71,7 +71,7 @@ class CourseRepositoryTest {
     }
 
     @Test
-    @Transactional
+    @Transactional()
     public void retrieveCourseForReview() {
         Review review = em.find(Review.class, 50001L);
         logger.info("{}",review.getCourse());
