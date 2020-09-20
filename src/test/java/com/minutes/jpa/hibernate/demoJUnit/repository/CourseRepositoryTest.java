@@ -2,14 +2,12 @@ package com.minutes.jpa.hibernate.demoJUnit.repository;
 
 import com.minutes.jpa.hibernate.demoJUnit.entity.Course;
 import com.minutes.jpa.hibernate.demoJUnit.entity.Review;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -32,6 +30,20 @@ class CourseRepositoryTest {
         Course course = repository.findById(1001l);
         logger.debug(course.getName());
         assertEquals("JPA in 50 steps", course.getName());
+    }
+
+    @Test
+    public void findById_firstLevelCacheDemo() {
+
+        Course course = repository.findById(10001L);
+        logger.info("First Course Retrieved {}", course);
+
+        Course course1 = repository.findById(10001L);
+        logger.info("First Course Retrieved again {}", course1);
+
+        assertEquals("JPA in 50 Steps", course.getName());
+
+        assertEquals("JPA in 50 Steps", course1.getName());
     }
 
     @Test
@@ -67,14 +79,14 @@ class CourseRepositoryTest {
     @Transactional
     public void retrieveReviewsForCourse() {
         Course course = repository.findById(10001L);
-        logger.info("{}",course.getReviews());
+        logger.info("{}", course.getReviews());
     }
 
     @Test
     @Transactional()
     public void retrieveCourseForReview() {
         Review review = em.find(Review.class, 50001L);
-        logger.info("{}",review.getCourse());
+        logger.info("{}", review.getCourse());
     }
 
 }
